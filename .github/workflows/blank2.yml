@@ -5,9 +5,13 @@ jobs:
   testdocker:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: run ducker
-        run: cd docker
-      - name: test
-        run: docker-compose up -d
+      - name: Start docker-compose
+        run: |
+          cd docker
+          docker compose up -d --build
+
+      - name: Stop docker-compose
+        if: always()
+        run: |
+          cd docker
+          docker compose down
